@@ -108,8 +108,10 @@
     <option value="mexico">Meksiko</option>
   </select>
 
+  <br>
   <button onclick="generateNames()">Generate Names</button>
   <button onclick="copyNames()">Salin Semua</button>
+  <button onclick="refreshNames()">Refresh</button>
 
   <div id="result"></div>
 
@@ -226,6 +228,10 @@
       navigator.clipboard.writeText(name).then(() => {
         alert(`Nama "${name}" berhasil disalin!`);
       });
+    }
+
+    function refreshNames() {
+      document.getElementById("result").innerHTML = "";
     }
   </script>
 </body>
