@@ -2,193 +2,229 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Link Shortener</title>
+  <title>Global Name Generator</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff6a00, #ee0979, #2193b0, #6dd5ed);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .container {
-      background: rgba(255,255,255,0.9);
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
-      width: 480px;
+      font-family: Arial, sans-serif;
       text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 12px 24px rgba(0,0,0,0.3);
-    }
-
-    .owner {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 10px;
-      color: #0f172a;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.25);
-      transition: color 0.4s ease;
-    }
-    .owner:hover {
-      color: #1d4ed8;
-    }
-
-    .brand {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #e11d48;
-      letter-spacing: 2px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-      transition: color 0.3s ease;
-    }
-    .brand:hover {
-      color: #9d174d;
-    }
-
-    h1 {
-      margin-bottom: 5px;
-      color: #1d4ed8;
-    }
-
-    textarea {
-      width: 100%;
-      height: 80px;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      resize: none;
-      font-size: 14px;
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      margin: 5px;
-      background: #2563eb;
+      padding: 40px;
       color: white;
+      transition: background-image 1s ease-in-out;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    h1 {
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px black;
+    }
+    input, select, button {
+      padding: 10px 15px;
+      margin: 10px;
+      border: none;
       border-radius: 8px;
+      font-size: 16px;
+    }
+    input#count {
+      width: 100px;
+      text-align: center;
+      background-color: pink; /* merah muda */
+    }
+    button {
+      background: #ff5722;
+      color: white;
       cursor: pointer;
-      font-size: 14px;
-      transition: background 0.3s ease, transform 0.2s ease;
     }
     button:hover {
-      background: #1d4ed8;
-      transform: scale(1.05);
+      background: #e64a19;
     }
-
-    #results {
+    #result {
       margin-top: 20px;
-      text-align: left;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .link-box {
-      background: #f3f4f6;
-      padding: 8px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 8px;
-      margin-bottom: 8px;
+      min-height: 150px;
+      text-align: left;
+      font-family: monospace;
+      color: white;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+    .name-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      padding: 5px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
     }
-
-    .link-box a {
-      color: #2563eb;
-      text-decoration: none;
-      word-break: break-all;
-    }
-
     .copy-btn {
-      background: #10b981;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 14px;
+      cursor: pointer;
     }
     .copy-btn:hover {
-      background: #059669;
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="owner">(by: SUTRA_LAUT04)</div>
-    <div class="brand">✨ IMOTIZEIT ✨</div>
-    <h1>Pendekkan Link Anda</h1>
-    <textarea id="urlInput" placeholder="Masukkan link panjang (bisa banyak, pisahkan dengan enter)"></textarea>
-    <br>
-    <button onclick="shorten()">Pendekkan</button>
-    <button onclick="refreshPage()">Refresh</button>
-    <button onclick="copyAll()">Copy Semua</button>
-    <div id="results"></div>
-  </div>
+  <h1>🌍 Global Name Generator</h1>
+
+  <label for="count">Jumlah nama: </label>
+  <input type="number" id="count" min="1" max="1000" value="20">
+
+  <label for="gender">Jenis Kelamin: </label>
+  <select id="gender">
+    <option value="female">Perempuan</option>
+    <option value="male">Laki-laki</option>
+    <option value="mixed" selected>Campur</option>
+  </select>
+
+  <label for="country">Negara: </label>
+  <select id="country">
+    <option value="indonesia">Indonesia</option>
+    <option value="greece">Yunani</option>
+    <option value="japan">Jepang</option>
+    <option value="italy">Italia</option>
+    <option value="france">Prancis</option>
+    <option value="usa">Amerika</option>
+    <option value="arab">Arab</option>
+    <option value="uk">Inggris</option>
+    <option value="finland">Finlandia</option>
+    <option value="netherlands">Belanda</option>
+    <option value="russia">Rusia</option>
+    <option value="germany">Jerman</option>
+    <option value="korea">Korea</option>
+    <option value="china">Cina</option>
+    <option value="india">India</option>
+    <option value="turkey">Turki</option>
+    <option value="spain">Spanyol</option>
+    <option value="brazil">Brasil</option>
+    <option value="egypt">Mesir</option>
+    <option value="mexico">Meksiko</option>
+  </select>
+
+  <button onclick="generateNames()">Generate Names</button>
+  <button onclick="copyNames()">Salin Semua</button>
+
+  <div id="result"></div>
 
   <script>
-    async function shorten() {
-      const input = document.getElementById("urlInput").value.trim();
-      if (!input) {
-        alert("Masukkan minimal 1 link!");
+    // 50 Foto HD Unsplash perempuan luar negeri
+    const backgrounds = [];
+    for(let i=1;i<=50;i++){
+      backgrounds.push(`https://source.unsplash.com/1600x900/?woman,portrait&sig=${i}`);
+    }
+
+    let preloadedImages = [];
+    let loadedCount = 0;
+
+    // preload semua gambar
+    backgrounds.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === backgrounds.length) startSlideshow();
+      }
+      preloadedImages.push(img);
+    });
+
+    let bgIndex = 0;
+    function startSlideshow() {
+      document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+      setInterval(() => {
+        bgIndex = (bgIndex + 1) % backgrounds.length;
+        document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+      }, 2000);
+    }
+
+    // Data nama semua negara
+    const namesData = {
+      indonesia: {male:["Budi","Agus","Joko","Hendra","Rizky"],female:["Siti","Dewi","Ayu","Putri","Lestari"],last:["Santoso","Wijaya","Saputra","Pratama","Kusuma"]},
+      greece: {male:["Nikos","Giorgos","Dimitris","Kostas","Christos"],female:["Maria","Eleni","Katerina","Sofia","Despina"],last:["Papadopoulos","Nikolaidis","Georgiou","Christakis","Stefanidis"]},
+      japan: {male:["Haruto","Ren","Takumi","Riku","Souta"],female:["Yui","Sakura","Hina","Aoi","Miyu"],last:["Tanaka","Yamamoto","Suzuki","Takahashi","Kobayashi"]},
+      italy: {male:["Luca","Marco","Giovanni","Francesco","Matteo"],female:["Giulia","Sofia","Aurora","Martina","Chiara"],last:["Rossi","Russo","Ferrari","Esposito","Bianchi"]},
+      france: {male:["Jean","Pierre","Louis","Nicolas","Antoine"],female:["Marie","Camille","Sophie","Chloe","Juliette"],last:["Dubois","Lefevre","Moreau","Laurent","Simon"]},
+      usa: {male:["James","Robert","John","Michael","William"],female:["Mary","Patricia","Jennifer","Linda","Elizabeth"],last:["Smith","Johnson","Williams","Brown","Jones"]},
+      arab: {male:["Ahmed","Mohammed","Ali","Omar","Hassan"],female:["Fatima","Aisha","Zainab","Layla","Maryam"],last:["Al-Farsi","Ibn-Said","Al-Mansoor","Al-Hakim","Al-Khaled"]},
+      uk: {male:["Oliver","George","Harry","Jack","Jacob"],female:["Olivia","Amelia","Isla","Emily","Sophia"],last:["Smith","Taylor","Wilson","Davies","Evans"]},
+      finland: {male:["Mikael","Juha","Antti","Kari","Jari"],female:["Aino","Emilia","Sofia","Laura","Katja"],last:["Korhonen","Virtanen","Mäkinen","Nieminen","Heikkinen"]},
+      netherlands: {male:["Jan","Peter","Johan","Daan","Lars"],female:["Anna","Emma","Sanne","Lisa","Sofie"],last:["deJong","Jansen","Bakker","Visser","Smit"]},
+      russia: {male:["Ivan","Dmitri","Sergei","Nikolai","Alexei"],female:["Anastasia","Olga","Natalia","Ekaterina","Maria"],last:["Ivanov","Petrov","Sidorov","Volkov","Smirnov"]},
+      germany: {male:["Hans","Peter","Karl","Stefan","Lukas"],female:["Anna","Mia","Lea","Lena","Sophie"],last:["Müller","Schmidt","Fischer","Weber","Meyer"]},
+      korea: {male:["Min-Jun","Ji-Hoon","Hyun-Woo","Sung-Min","Jae-Won"],female:["Seo-Yeon","Ji-Eun","Ha-Young","Soo-Min","Ye-Jin"],last:["Kim","Lee","Park","Choi","Jung"]},
+      china: {male:["Wei","Hao","Jun","Peng","Ming"],female:["Li","Mei","Xiu","Hua","Yan"],last:["Wang","Li","Zhang","Chen","Liu"]},
+      india: {male:["Arjun","Ravi","Amit","Rajesh","Vikram"],female:["Priya","Anita","Kavita","Sunita","Lakshmi"],last:["Sharma","Patel","Gupta","Mehta","Reddy"]},
+      turkey: {male:["Mehmet","Ahmet","Mustafa","Ali","Yusuf"],female:["Ayşe","Fatma","Zeynep","Elif","Hatice"],last:["Yılmaz","Demir","Şahin","Çelik","Arslan"]},
+      spain: {male:["Jose","Antonio","Manuel","Francisco","Carlos"],female:["Maria","Carmen","Josefa","Isabel","Ana"],last:["Garcia","Martinez","Lopez","Sanchez","Gonzalez"]},
+      brazil: {male:["Joao","Jose","Antonio","Francisco","Carlos"],female:["Maria","Ana","Francisca","Antonia","Adriana"],last:["Silva","Santos","Oliveira","Souza","Rodrigues"]},
+      egypt: {male:["Mohamed","Ahmed","Mahmoud","Mostafa","Omar"],female:["Fatma","Aya","Nour","Sara","Mona"],last:["Hassan","Mahmoud","Ibrahim","Youssef","Ali"]},
+      mexico: {male:["Jose","Juan","Luis","Carlos","Jorge"],female:["Maria","Guadalupe","Juana","Rosa","Carmen"],last:["Hernandez","Garcia","Martinez","Lopez","Gonzalez"]}
+    };
+
+    function generateNames() {
+      let count = parseInt(document.getElementById("count").value);
+      let gender = document.getElementById("gender").value;
+      let country = document.getElementById("country").value;
+
+      if (isNaN(count) || count <= 0) {
+        alert("Masukkan jumlah nama yang valid!");
         return;
       }
-      const urls = input.split("\n").map(u => u.trim()).filter(u => u);
 
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = "";
+      let generated = new Set();
+      let pool = namesData[country];
 
-      for (let url of urls) {
-        try {
-          const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`);
-          const shortUrl = await res.text();
-
-          const div = document.createElement("div");
-          div.className = "link-box";
-          div.innerHTML = `
-            <a href="${shortUrl}" target="_blank">${shortUrl}</a>
-            <button class="copy-btn" onclick="copyToClipboard('${shortUrl}')">Copy</button>
-          `;
-          resultsDiv.appendChild(div);
-        } catch (e) {
-          alert("Gagal memendekkan: " + url);
+      while (generated.size < count) {
+        let first;
+        if (gender === "female") {
+          first = pool.female[Math.floor(Math.random() * pool.female.length)];
+        } else if (gender === "male") {
+          first = pool.male[Math.floor(Math.random() * pool.male.length)];
+        } else {
+          let g = Math.random() < 0.5 ? pool.female : pool.male;
+          first = g[Math.floor(Math.random() * g.length)];
         }
+
+        let last = pool.last[Math.floor(Math.random() * pool.last.length)];
+        let randomNum = Math.floor(100 + Math.random() * 900);
+        let fullName = first + "." + last + randomNum;
+
+        generated.add(fullName);
       }
-    }
 
-    function refreshPage() {
-      document.getElementById("urlInput").value = "";
-      document.getElementById("results").innerHTML = "";
-    }
+      let container = document.getElementById("result");
+      container.innerHTML = "";
 
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Link disalin: " + text);
+      Array.from(generated).forEach(name => {
+        let div = document.createElement("div");
+        div.className = "name-item";
+        div.innerHTML = `<span>${name}</span> 
+                         <button class="copy-btn" onclick="copyOne('${name}')">Salin</button>`;
+        container.appendChild(div);
       });
     }
 
-    function copyAll() {
-      const links = Array.from(document.querySelectorAll("#results a")).map(a => a.href).join("\n");
-      if (!links) {
-        alert("Belum ada link untuk disalin!");
+    function copyNames() {
+      let names = Array.from(document.querySelectorAll(".name-item span"))
+                       .map(el => el.innerText).join("\n");
+      if (names.trim() === "") {
+        alert("Belum ada nama yang dihasilkan!");
         return;
       }
-      navigator.clipboard.writeText(links).then(() => {
-        alert("Semua link berhasil disalin!");
+      navigator.clipboard.writeText(names).then(() => {
+        alert("Semua nama berhasil disalin!");
+      });
+    }
+
+    function copyOne(name) {
+      navigator.clipboard.writeText(name).then(() => {
+        alert(`Nama "${name}" berhasil disalin!`);
       });
     }
   </script>
