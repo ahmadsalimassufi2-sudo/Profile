@@ -2,236 +2,221 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Global Name Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator Nama Global</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-      color: white;
-      transition: background-image 1s ease-in-out;
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
+      background-repeat: no-repeat;
+      text-align: center;
+      padding: 20px;
+      transition: background-image 1s ease-in-out;
     }
     h1 {
       margin-bottom: 20px;
-      text-shadow: 2px 2px 5px black;
     }
-    input, select, button {
-      padding: 10px 15px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-    input#count {
-      width: 100px;
-      text-align: center;
-      background-color: pink; /* merah muda */
+    select, input, button {
+      margin: 8px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
     button {
-      background: #ff5722;
-      color: white;
       cursor: pointer;
+      background: #ff9800;
+      color: white;
+      border: none;
+      font-weight: bold;
     }
     button:hover {
-      background: #e64a19;
+      background: #e68900;
     }
-    #result {
+    #output {
       margin-top: 20px;
       padding: 15px;
-      background: rgba(0, 0, 0, 0.6);
+      background: white;
       border-radius: 8px;
-      min-height: 150px;
+      min-height: 100px;
       text-align: left;
-      font-family: monospace;
-      color: white;
-      overflow-y: auto;
-      max-height: 400px;
+      white-space: pre-wrap;
     }
-    .name-item {
+    .name-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 4px;
+      padding: 2px 4px;
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
     }
-    .copy-btn {
-      background: #007bff;
-      color: white;
+    .name-text {
+      flex: 1;
+      text-align: left;
+    }
+    .copy-single {
+      margin-left: 10px;
+      padding: 2px 6px;
+      font-size: 12px;
+      background: #4caf50;
       border: none;
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: 14px;
+      color: white;
+      border-radius: 4px;
       cursor: pointer;
     }
-    .copy-btn:hover {
-      background: #0056b3;
+    .copy-single:hover {
+      background: #43a047;
+    }
+    .copied {
+      color: gray;
+      font-weight: bold;
+    }
+    #copyMsg {
+      margin-top: 10px;
+      color: green;
+      font-weight: bold;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>🌍 Global Name Generator</h1>
+  <h1>🌍 Generator Nama Global</h1>
 
-  <label for="count">Jumlah nama: </label>
-  <input type="number" id="count" min="1" max="1000" value="20">
-
-  <label for="gender">Jenis Kelamin: </label>
-  <select id="gender">
-    <option value="female">Perempuan</option>
-    <option value="male">Laki-laki</option>
-    <option value="mixed" selected>Campur</option>
-  </select>
-
-  <label for="country">Negara: </label>
+  <label for="country">Pilih Negara:</label>
   <select id="country">
-    <option value="indonesia">Indonesia</option>
-    <option value="greece">Yunani</option>
-    <option value="japan">Jepang</option>
-    <option value="italy">Italia</option>
-    <option value="france">Prancis</option>
-    <option value="usa">Amerika</option>
-    <option value="arab">Arab</option>
-    <option value="uk">Inggris</option>
-    <option value="finland">Finlandia</option>
-    <option value="netherlands">Belanda</option>
-    <option value="russia">Rusia</option>
-    <option value="germany">Jerman</option>
-    <option value="korea">Korea</option>
-    <option value="china">Cina</option>
-    <option value="india">India</option>
-    <option value="turkey">Turki</option>
-    <option value="spain">Spanyol</option>
-    <option value="brazil">Brasil</option>
-    <option value="egypt">Mesir</option>
-    <option value="mexico">Meksiko</option>
+    <option>Semua Negara</option>
   </select>
+
+  <label for="gender">Jenis Kelamin:</label>
+  <select id="gender">
+    <option>Laki-laki</option>
+    <option>Perempuan</option>
+  </select>
+
+  <label for="jumlah">Jumlah Nama:</label>
+  <input type="number" id="jumlah" value="5" min="1" max="1000000">
 
   <br>
-  <button onclick="generateNames()">Generate Names</button>
+  <button onclick="generateNames()">Generate</button>
   <button onclick="copyNames()">Salin Semua</button>
-  <button onclick="refreshNames()">Refresh</button>
 
-  <div id="result"></div>
+  <div id="output"></div>
+  <div id="copyMsg">✅ Nama berhasil disalin!</div>
 
   <script>
-    // 50 Foto HD Unsplash perempuan luar negeri
-    const backgrounds = [];
-    for(let i=1;i<=50;i++){
-      backgrounds.push(`https://source.unsplash.com/1600x900/?woman,portrait&sig=${i}`);
-    }
+    const backgrounds = [
+      'url("https://images.unsplash.com/photo-1506748686210-1b8b3a1e6e0a")',
+      'url("https://images.unsplash.com/photo-1518709268802-8b1b1b1b1b1b")'
+    ];
+    let currentBackground = 0;
+    setInterval(() => {
+      currentBackground = (currentBackground + 1) % backgrounds.length;
+      document.body.style.backgroundImage = backgrounds[currentBackground];
+    }, 2000);
 
-    let preloadedImages = [];
-    let loadedCount = 0;
+    const allCountries = ["Indonesia", "Jepang", "Amerika Serikat", "Jerman"];
 
-    // preload semua gambar
-    backgrounds.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === backgrounds.length) startSlideshow();
+    const sampleNames = {
+      "Indonesia": {
+        "Laki-laki": { "depan": ["Budi","Andi","Agus","Rizki"], "belakang": ["Santoso","Pratama","Setiawan","Wijaya"] },
+        "Perempuan": { "depan": ["Siti","Dewi","Ayu","Rina"], "belakang": ["Lestari","Putri","Wulandari","Halimah"] }
+      },
+      "Jepang": {
+        "Laki-laki": { "depan": ["Haruto","Kaito","Ren"], "belakang": ["Sato","Takahashi","Yamamoto"] },
+        "Perempuan": { "depan": ["Sakura","Yui","Hina"], "belakang": ["Tanaka","Kobayashi","Nakamura"] }
+      },
+      "Amerika Serikat": {
+        "Laki-laki": { "depan": ["James","Michael","David"], "belakang": ["Smith","Johnson","Brown"] },
+        "Perempuan": { "depan": ["Jennifer","Ashley","Sarah"], "belakang": ["Williams","Jones","Miller"] }
+      },
+      "Jerman": {
+        "Laki-laki": { "depan": ["Hans","Klaus","Wolfgang"], "belakang": ["Müller","Schmidt","Schneider"] },
+        "Perempuan": { "depan": ["Greta","Heidi","Lena"], "belakang": ["Fischer","Weber","Meyer"] }
       }
-      preloadedImages.push(img);
-    });
-
-    let bgIndex = 0;
-    function startSlideshow() {
-      document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
-      setInterval(() => {
-        bgIndex = (bgIndex + 1) % backgrounds.length;
-        document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
-      }, 2000);
-    }
-
-    // Data nama semua negara
-    const namesData = {
-      indonesia: {male:["Budi","Agus","Joko","Hendra","Rizky"],female:["Siti","Dewi","Ayu","Putri","Lestari"],last:["Santoso","Wijaya","Saputra","Pratama","Kusuma"]},
-      greece: {male:["Nikos","Giorgos","Dimitris","Kostas","Christos"],female:["Maria","Eleni","Katerina","Sofia","Despina"],last:["Papadopoulos","Nikolaidis","Georgiou","Christakis","Stefanidis"]},
-      japan: {male:["Haruto","Ren","Takumi","Riku","Souta"],female:["Yui","Sakura","Hina","Aoi","Miyu"],last:["Tanaka","Yamamoto","Suzuki","Takahashi","Kobayashi"]},
-      italy: {male:["Luca","Marco","Giovanni","Francesco","Matteo"],female:["Giulia","Sofia","Aurora","Martina","Chiara"],last:["Rossi","Russo","Ferrari","Esposito","Bianchi"]},
-      france: {male:["Jean","Pierre","Louis","Nicolas","Antoine"],female:["Marie","Camille","Sophie","Chloe","Juliette"],last:["Dubois","Lefevre","Moreau","Laurent","Simon"]},
-      usa: {male:["James","Robert","John","Michael","William"],female:["Mary","Patricia","Jennifer","Linda","Elizabeth"],last:["Smith","Johnson","Williams","Brown","Jones"]},
-      arab: {male:["Ahmed","Mohammed","Ali","Omar","Hassan"],female:["Fatima","Aisha","Zainab","Layla","Maryam"],last:["Al-Farsi","Ibn-Said","Al-Mansoor","Al-Hakim","Al-Khaled"]},
-      uk: {male:["Oliver","George","Harry","Jack","Jacob"],female:["Olivia","Amelia","Isla","Emily","Sophia"],last:["Smith","Taylor","Wilson","Davies","Evans"]},
-      finland: {male:["Mikael","Juha","Antti","Kari","Jari"],female:["Aino","Emilia","Sofia","Laura","Katja"],last:["Korhonen","Virtanen","Mäkinen","Nieminen","Heikkinen"]},
-      netherlands: {male:["Jan","Peter","Johan","Daan","Lars"],female:["Anna","Emma","Sanne","Lisa","Sofie"],last:["deJong","Jansen","Bakker","Visser","Smit"]},
-      russia: {male:["Ivan","Dmitri","Sergei","Nikolai","Alexei"],female:["Anastasia","Olga","Natalia","Ekaterina","Maria"],last:["Ivanov","Petrov","Sidorov","Volkov","Smirnov"]},
-      germany: {male:["Hans","Peter","Karl","Stefan","Lukas"],female:["Anna","Mia","Lea","Lena","Sophie"],last:["Müller","Schmidt","Fischer","Weber","Meyer"]},
-      korea: {male:["Min-Jun","Ji-Hoon","Hyun-Woo","Sung-Min","Jae-Won"],female:["Seo-Yeon","Ji-Eun","Ha-Young","Soo-Min","Ye-Jin"],last:["Kim","Lee","Park","Choi","Jung"]},
-      china: {male:["Wei","Hao","Jun","Peng","Ming"],female:["Li","Mei","Xiu","Hua","Yan"],last:["Wang","Li","Zhang","Chen","Liu"]},
-      india: {male:["Arjun","Ravi","Amit","Rajesh","Vikram"],female:["Priya","Anita","Kavita","Sunita","Lakshmi"],last:["Sharma","Patel","Gupta","Mehta","Reddy"]},
-      turkey: {male:["Mehmet","Ahmet","Mustafa","Ali","Yusuf"],female:["Ayşe","Fatma","Zeynep","Elif","Hatice"],last:["Yılmaz","Demir","Şahin","Çelik","Arslan"]},
-      spain: {male:["Jose","Antonio","Manuel","Francisco","Carlos"],female:["Maria","Carmen","Josefa","Isabel","Ana"],last:["Garcia","Martinez","Lopez","Sanchez","Gonzalez"]},
-      brazil: {male:["Joao","Jose","Antonio","Francisco","Carlos"],female:["Maria","Ana","Francisca","Antonia","Adriana"],last:["Silva","Santos","Oliveira","Souza","Rodrigues"]},
-      egypt: {male:["Mohamed","Ahmed","Mahmoud","Mostafa","Omar"],female:["Fatma","Aya","Nour","Sara","Mona"],last:["Hassan","Mahmoud","Ibrahim","Youssef","Ali"]},
-      mexico: {male:["Jose","Juan","Luis","Carlos","Jorge"],female:["Maria","Guadalupe","Juana","Rosa","Carmen"],last:["Hernandez","Garcia","Martinez","Lopez","Gonzalez"]}
     };
 
+    const select = document.getElementById("country");
+    allCountries.forEach(c => {
+      const opt = document.createElement("option");
+      opt.textContent = c;
+      select.appendChild(opt);
+    });
+
     function generateNames() {
-      let count = parseInt(document.getElementById("count").value);
-      let gender = document.getElementById("gender").value;
-      let country = document.getElementById("country").value;
+      const country = document.getElementById("country").value;
+      const gender = document.getElementById("gender").value;
+      let jumlah = parseInt(document.getElementById("jumlah").value);
+      const output = document.getElementById("output");
+      output.innerHTML = '';
 
-      if (isNaN(count) || count <= 0) {
-        alert("Masukkan jumlah nama yang valid!");
-        return;
-      }
+      let poolDepan = [];
+      let poolBelakang = [];
 
-      let generated = new Set();
-      let pool = namesData[country];
-
-      while (generated.size < count) {
-        let first;
-        if (gender === "female") {
-          first = pool.female[Math.floor(Math.random() * pool.female.length)];
-        } else if (gender === "male") {
-          first = pool.male[Math.floor(Math.random() * pool.male.length)];
-        } else {
-          let g = Math.random() < 0.5 ? pool.female : pool.male;
-          first = g[Math.floor(Math.random() * g.length)];
+      if (country === "Semua Negara") {
+        for (let c in sampleNames) {
+          poolDepan = poolDepan.concat(sampleNames[c][gender].depan || []);
+          poolBelakang = poolBelakang.concat(sampleNames[c][gender].belakang || []);
         }
-
-        let last = pool.last[Math.floor(Math.random() * pool.last.length)];
-        let randomNum = Math.floor(100 + Math.random() * 900);
-        let fullName = first + "." + last + randomNum;
-
-        generated.add(fullName);
+      } else {
+        if (sampleNames[country]) {
+          poolDepan = [...sampleNames[country][gender].depan];
+          poolBelakang = [...sampleNames[country][gender].belakang];
+        } else {
+          for (let c in sampleNames) {
+            poolDepan = poolDepan.concat(sampleNames[c][gender].depan || []);
+            poolBelakang = poolBelakang.concat(sampleNames[c][gender].belakang || []);
+          }
+        }
       }
 
-      let container = document.getElementById("result");
-      container.innerHTML = "";
+      if (poolDepan.length === 0) poolDepan = ["Anonim"];
+      if (poolBelakang.length === 0) poolBelakang = ["Anonim"];
 
-      Array.from(generated).forEach(name => {
-        let div = document.createElement("div");
-        div.className = "name-item";
-        div.innerHTML = `<span>${name}</span> 
-                         <button class="copy-btn" onclick="copyOne('${name}')">Salin</button>`;
-        container.appendChild(div);
+      let result = new Set();
+      while (result.size < jumlah) {
+        const depan = poolDepan[Math.floor(Math.random() * poolDepan.length)];
+        const belakang = poolBelakang[Math.floor(Math.random() * poolBelakang.length)];
+        const number = Math.floor(100000 + Math.random() * 900000);
+        result.add(depan + "." + belakang + "." + number);
+      }
+
+      Array.from(result).forEach(name => {
+        const row = document.createElement('div');
+        row.className = 'name-row';
+        const span = document.createElement('span');
+        span.className = 'name-text';
+        span.textContent = name;
+        const btn = document.createElement('button');
+        btn.className = 'copy-single';
+        btn.textContent = 'Salin';
+        btn.onclick = () => {
+          navigator.clipboard.writeText(name);
+          span.classList.add('copied');
+          span.textContent = name + " ✅"; // menandai nama yang sudah disalin
+          const msg = document.getElementById("copyMsg");
+          msg.style.display = "block";
+          setTimeout(() => { msg.style.display = "none"; }, 1500);
+        };
+        row.appendChild(span);
+        row.appendChild(btn);
+        output.appendChild(row);
       });
+
+      document.getElementById("copyMsg").style.display = false;
     }
 
     function copyNames() {
-      let names = Array.from(document.querySelectorAll(".name-item span"))
-                       .map(el => el.innerText).join("\n");
-      if (names.trim() === "") {
-        alert("Belum ada nama yang dihasilkan!");
+      const output = Array.from(document.querySelectorAll('.name-text')).map(e => e.textContent.replace(" ✅","")).join("\n");
+      if (!output.trim()) {
+        alert("Belum ada nama untuk disalin!");
         return;
       }
-      navigator.clipboard.writeText(names).then(() => {
-        alert("Semua nama berhasil disalin!");
+      navigator.clipboard.writeText(output).then(() => {
+        const msg = document.getElementById("copyMsg");
+        msg.style.display = "block";
+        setTimeout(() => { msg.style.display = "none"; }, 2000);
       });
-    }
-
-    function copyOne(name) {
-      navigator.clipboard.writeText(name).then(() => {
-        alert(`Nama "${name}" berhasil disalin!`);
-      });
-    }
-
-    function refreshNames() {
-      document.getElementById("result").innerHTML = "";
     }
   </script>
 </body>
