@@ -14,9 +14,7 @@
       padding: 20px;
       transition: background-image 1s ease-in-out;
     }
-    h1 {
-      margin-bottom: 20px;
-    }
+    h1 { margin-bottom: 20px; }
     select, input, button {
       margin: 8px;
       padding: 10px;
@@ -30,9 +28,7 @@
       border: none;
       font-weight: bold;
     }
-    button:hover {
-      background: #e68900;
-    }
+    button:hover { background: #e68900; }
     #output {
       margin-top: 20px;
       padding: 15px;
@@ -51,10 +47,7 @@
       border-bottom: 1px solid #eee;
       transition: background 0.3s;
     }
-    .name-text {
-      flex: 1;
-      text-align: left;
-    }
+    .name-text { flex: 1; text-align: left; }
     .copy-single {
       margin-left: 10px;
       padding: 2px 6px;
@@ -65,19 +58,9 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .copy-single:hover {
-      background: #43a047;
-    }
-    .copied {
-      color: gray;
-      font-weight: bold;
-    }
-    #copyMsg {
-      margin-top: 10px;
-      color: green;
-      font-weight: bold;
-      display: none;
-    }
+    .copy-single:hover { background: #43a047; }
+    .copied { color: gray; font-weight: bold; }
+    #copyMsg { margin-top: 10px; color: green; font-weight: bold; display: none; }
   </style>
 </head>
 <body>
@@ -105,6 +88,7 @@
   <div id="copyMsg">✅ Nama berhasil disalin!</div>
 
   <script>
+    // Background berganti setiap 2 detik
     const backgrounds = [
       'url("https://images.unsplash.com/photo-1506748686210-1b8b3a1e6e0a")',
       'url("https://images.unsplash.com/photo-1518709268802-8b1b1b1b1b1b")'
@@ -115,27 +99,86 @@
       document.body.style.backgroundImage = backgrounds[currentBackground];
     }, 2000);
 
-    const allCountries = ["Indonesia", "Jepang", "Amerika Serikat", "Jerman"];
+    // Daftar negara
+    const allCountries = [
+      "Indonesia","Jepang","Amerika Serikat","Jerman",
+      "Italia","Prancis","Yunani","Mexico","Kanada","Brasil",
+      "Australia","Spanyol","Belanda","Norwegia","Irlandia","Mesir","Thailand"
+    ];
 
+    // Nama contoh per negara
     const sampleNames = {
       "Indonesia": {
-        "Laki-laki": { "depan": ["Budi","Andi","Agus","Rizki"], "belakang": ["Santoso","Pratama","Setiawan","Wijaya"] },
-        "Perempuan": { "depan": ["Siti","Dewi","Ayu","Rina"], "belakang": ["Lestari","Putri","Wulandari","Halimah"] }
+        "Laki-laki": { "depan":["Budi","Andi","Agus","Rizki"], "belakang":["Santoso","Pratama","Setiawan","Wijaya"] },
+        "Perempuan": { "depan":["Siti","Dewi","Ayu","Rina"], "belakang":["Lestari","Putri","Wulandari","Halimah"] }
       },
       "Jepang": {
-        "Laki-laki": { "depan": ["Haruto","Kaito","Ren"], "belakang": ["Sato","Takahashi","Yamamoto"] },
-        "Perempuan": { "depan": ["Sakura","Yui","Hina"], "belakang": ["Tanaka","Kobayashi","Nakamura"] }
+        "Laki-laki": { "depan":["Haruto","Kaito","Ren"], "belakang":["Sato","Takahashi","Yamamoto"] },
+        "Perempuan": { "depan":["Sakura","Yui","Hina"], "belakang":["Tanaka","Kobayashi","Nakamura"] }
       },
       "Amerika Serikat": {
-        "Laki-laki": { "depan": ["James","Michael","David"], "belakang": ["Smith","Johnson","Brown"] },
-        "Perempuan": { "depan": ["Jennifer","Ashley","Sarah"], "belakang": ["Williams","Jones","Miller"] }
+        "Laki-laki": { "depan":["James","Michael","David"], "belakang":["Smith","Johnson","Brown"] },
+        "Perempuan": { "depan":["Jennifer","Ashley","Sarah"], "belakang":["Williams","Jones","Miller"] }
       },
       "Jerman": {
-        "Laki-laki": { "depan": ["Hans","Klaus","Wolfgang"], "belakang": ["Müller","Schmidt","Schneider"] },
-        "Perempuan": { "depan": ["Greta","Heidi","Lena"], "belakang": ["Fischer","Weber","Meyer"] }
+        "Laki-laki": { "depan":["Hans","Klaus","Wolfgang"], "belakang":["Müller","Schmidt","Schneider"] },
+        "Perempuan": { "depan":["Greta","Heidi","Lena"], "belakang":["Fischer","Weber","Meyer"] }
+      },
+      "Italia": {
+        "Laki-laki": { "depan":["Lorenzo","Marco","Giovanni"], "belakang":["Rossi","Bianchi","Ferrari"] },
+        "Perempuan": { "depan":["Sofia","Giulia","Aurora"], "belakang":["Romano","Galli","Fontana"] }
+      },
+      "Prancis": {
+        "Laki-laki": { "depan":["Louis","Lucas","Hugo"], "belakang":["Martin","Bernard","Dubois"] },
+        "Perempuan": { "depan":["Emma","Chloe","Louise"], "belakang":["Lefevre","Moreau","Laurent"] }
+      },
+      "Yunani": {
+        "Laki-laki": { "depan":["Nikos","Dimitris","Georgios"], "belakang":["Papadopoulos","Nikolaou","Christodoulou"] },
+        "Perempuan": { "depan":["Maria","Eleni","Sofia"], "belakang":["Papadaki","Ioannou","Vlachou"] }
+      },
+      "Mexico": {
+        "Laki-laki": { "depan":["Juan","Luis","Carlos"], "belakang":["Hernandez","Garcia","Lopez"] },
+        "Perempuan": { "depan":["Maria","Juana","Sofia"], "belakang":["Martinez","Gonzalez","Perez"] }
+      },
+      "Kanada": {
+        "Laki-laki": { "depan":["Liam","Noah","Ethan"], "belakang":["Smith","Brown","Taylor"] },
+        "Perempuan": { "depan":["Emma","Olivia","Sophia"], "belakang":["Wilson","Clark","White"] }
+      },
+      "Brasil": {
+        "Laki-laki": { "depan":["Lucas","Gabriel","Mateus"], "belakang":["Silva","Souza","Costa"] },
+        "Perempuan": { "depan":["Maria","Ana","Beatriz"], "belakang":["Santos","Oliveira","Pereira"] }
+      },
+      "Australia": {
+        "Laki-laki": { "depan":["Jack","Oliver","Noah"], "belakang":["Smith","Jones","Brown"] },
+        "Perempuan": { "depan":["Charlotte","Olivia","Amelia"], "belakang":["Wilson","Taylor","Evans"] }
+      },
+      "Spanyol": {
+        "Laki-laki": { "depan":["Hugo","Daniel","Alejandro"], "belakang":["Gomez","Martinez","Lopez"] },
+        "Perempuan": { "depan":["Lucia","Sofia","Martina"], "belakang":["Garcia","Fernandez","Sanchez"] }
+      },
+      "Belanda": {
+        "Laki-laki": { "depan":["Daan","Lucas","Levi"], "belakang":["Jansen","De Vries","Van Dijk"] },
+        "Perempuan": { "depan":["Emma","Tess","Sophie"], "belakang":["Bakker","Visser","Smit"] }
+      },
+      "Norwegia": {
+        "Laki-laki": { "depan":["Lukas","Oskar","Emil"], "belakang":["Hansen","Johansen","Larsen"] },
+        "Perempuan": { "depan":["Emma","Nora","Sofie"], "belakang":["Haugen","Berg","Lunde"] }
+      },
+      "Irlandia": {
+        "Laki-laki": { "depan":["Sean","Conor","Patrick"], "belakang":["O'Brien","Murphy","Kelly"] },
+        "Perempuan": { "depan":["Aoife","Saoirse","Niamh"], "belakang":["O'Sullivan","Byrne","Ryan"] }
+      },
+      "Mesir": {
+        "Laki-laki": { "depan":["Ahmed","Mohamed","Omar"], "belakang":["Hassan","Ali","Youssef"] },
+        "Perempuan": { "depan":["Sara","Nour","Mariam"], "belakang":["Hassan","Ali","Youssef"] }
+      },
+      "Thailand": {
+        "Laki-laki": { "depan":["Somchai","Anan","Krit"], "belakang":["Sukhum","Niran","Phan"] },
+        "Perempuan": { "depan":["Malee","Suda","Anong"], "belakang":["Sukhum","Niran","Phan"] }
       }
     };
 
+    // Tambahkan negara ke dropdown
     const select = document.getElementById("country");
     allCountries.forEach(c => {
       const opt = document.createElement("option");
@@ -163,15 +206,10 @@
           poolDepan = [...sampleNames[country][gender].depan];
           poolBelakang = [...sampleNames[country][gender].belakang];
         } else {
-          for (let c in sampleNames) {
-            poolDepan = poolDepan.concat(sampleNames[c][gender].depan || []);
-            poolBelakang = poolBelakang.concat(sampleNames[c][gender].belakang || []);
-          }
+          poolDepan = ["Anonim"];
+          poolBelakang = ["Anonim"];
         }
       }
-
-      if (poolDepan.length === 0) poolDepan = ["Anonim"];
-      if (poolBelakang.length === 0) poolBelakang = ["Anonim"];
 
       let result = new Set();
       while (result.size < jumlah) {
@@ -193,7 +231,7 @@
         btn.onclick = () => {
           navigator.clipboard.writeText(name);
           span.classList.add('copied');
-          span.textContent = name + " ✅"; // menandai nama yang sudah disalin
+          span.textContent = name + " ✅";
           const msg = document.getElementById("copyMsg");
           msg.style.display = "block";
           setTimeout(() => { msg.style.display = "none"; }, 1500);
