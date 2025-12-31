@@ -1,261 +1,125 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generator Nama Global</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      text-align: center;
-      padding: 20px;
-      transition: background-image 1s ease-in-out;
-    }
-    h1 { margin-bottom: 20px; }
-    select, input, button {
-      margin: 8px;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button {
-      cursor: pointer;
-      background: #ff9800;
-      color: white;
-      border: none;
-      font-weight: bold;
-    }
-    button:hover { background: #e68900; }
-    #output {
-      margin-top: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 8px;
-      min-height: 100px;
-      text-align: left;
-      white-space: pre-wrap;
-    }
-    .name-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-      padding: 2px 4px;
-      border-bottom: 1px solid #eee;
-      transition: background 0.3s;
-    }
-    .name-text { flex: 1; text-align: left; }
-    .copy-single {
-      margin-left: 10px;
-      padding: 2px 6px;
-      font-size: 12px;
-      background: #4caf50;
-      border: none;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .copy-single:hover { background: #43a047; }
-    .copied { color: gray; font-weight: bold; }
-    #copyMsg { margin-top: 10px; color: green; font-weight: bold; display: none; }
-  </style>
+<meta charset="UTF-8">
+<title>Selamat Tahun Baru Sayang</title>
+
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ffdee9, #b5fffc);
+  text-align: center;
+  padding: 40px;
+}
+
+h1 {
+  color: #d63384;
+}
+
+button {
+  background: #ff4d6d;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ff1e4d;
+}
+
+.hidden {
+  display: none;
+}
+
+#pesan {
+  margin-top: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  animation: fadeIn 1.5s ease;
+}
+
+.heart {
+  font-size: 40px;
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
 </head>
+
 <body>
-  <h1>🌍 Generator Nama Global</h1>
 
-  <label for="country">Pilih Negara:</label>
-  <select id="country">
-    <option>Semua Negara</option>
-  </select>
+<h1>✨ Selamat Tahun Baru Sayang ✨</h1>
+<p>Ada sesuatu yang ingin aku sampaikan untukmu…</p>
 
-  <label for="gender">Jenis Kelamin:</label>
-  <select id="gender">
-    <option>Laki-laki</option>
-    <option>Perempuan</option>
-  </select>
+<button onclick="tampilkanPesan()">Tekan di Sini 💖</button>
 
-  <label for="jumlah">Jumlah Nama:</label>
-  <input type="number" id="jumlah" value="5" min="1" max="1000000">
+<audio id="musik" src="lagu-romantis.mp3"></audio>
 
-  <br>
-  <button onclick="generateNames()">Generate</button>
-  <button onclick="copyNames()">Salin Semua</button>
+<div id="pesan" class="hidden">
+  <div class="heart">❤️</div>
 
-  <div id="output"></div>
-  <div id="copyMsg">✅ Nama berhasil disalin!</div>
+  <p>
+    Sayangku, terima kasih sudah hadir di hidupku.  
+    Sampai di tahun yang baru ini, aku ingin terus belajar menjadi pasangan yang lebih baik untukmu.  
+    Semoga cinta kita selalu tumbuh, saling menguatkan, dan saling menjaga.
+  </p>
 
-  <script>
-    // Background berganti setiap 2 detik
-    const backgrounds = [
-      'url("https://images.unsplash.com/photo-1506748686210-1b8b3a1e6e0a")',
-      'url("https://images.unsplash.com/photo-1518709268802-8b1b1b1b1b1b")'
-    ];
-    let currentBackground = 0;
-    setInterval(() => {
-      currentBackground = (currentBackground + 1) % backgrounds.length;
-      document.body.style.backgroundImage = backgrounds[currentBackground];
-    }, 2000);
+  <p><strong>Doa untuk kita:</strong></p>
 
-    // Daftar negara
-    const allCountries = [
-      "Indonesia","Jepang","Amerika Serikat","Jerman",
-      "Italia","Prancis","Yunani","Mexico","Kanada","Brasil",
-      "Australia","Spanyol","Belanda","Norwegia","Irlandia","Mesir","Thailand"
-    ];
+  <p>
+    Ya Allah, satukanlah hati kami dalam kebaikan.  
+    Jadikan hubungan kami penuh dengan kasih sayang, kejujuran, dan kesabaran.  
+    Jauhkan kami dari hal-hal yang buruk.  
+    Jika dia memang yang terbaik untukku, mudahkanlah jalan kami menuju ridho-Mu  
+    dan berkahilah cinta kami di dunia hingga akhirat.  
+    Aamiin Ya Rabbal 'Alamin.
+  </p>
 
-    // Nama contoh per negara
-    const sampleNames = {
-      "Indonesia": {
-        "Laki-laki": { "depan":["Budi","Andi","Agus","Rizki"], "belakang":["Santoso","Pratama","Setiawan","Wijaya"] },
-        "Perempuan": { "depan":["Siti","Dewi","Ayu","Rina"], "belakang":["Lestari","Putri","Wulandari","Halimah"] }
-      },
-      "Jepang": {
-        "Laki-laki": { "depan":["Haruto","Kaito","Ren"], "belakang":["Sato","Takahashi","Yamamoto"] },
-        "Perempuan": { "depan":["Sakura","Yui","Hina"], "belakang":["Tanaka","Kobayashi","Nakamura"] }
-      },
-      "Amerika Serikat": {
-        "Laki-laki": { "depan":["James","Michael","David"], "belakang":["Smith","Johnson","Brown"] },
-        "Perempuan": { "depan":["Jennifer","Ashley","Sarah"], "belakang":["Williams","Jones","Miller"] }
-      },
-      "Jerman": {
-        "Laki-laki": { "depan":["Hans","Klaus","Wolfgang"], "belakang":["Müller","Schmidt","Schneider"] },
-        "Perempuan": { "depan":["Greta","Heidi","Lena"], "belakang":["Fischer","Weber","Meyer"] }
-      },
-      "Italia": {
-        "Laki-laki": { "depan":["Lorenzo","Marco","Giovanni"], "belakang":["Rossi","Bianchi","Ferrari"] },
-        "Perempuan": { "depan":["Sofia","Giulia","Aurora"], "belakang":["Romano","Galli","Fontana"] }
-      },
-      "Prancis": {
-        "Laki-laki": { "depan":["Louis","Lucas","Hugo"], "belakang":["Martin","Bernard","Dubois"] },
-        "Perempuan": { "depan":["Emma","Chloe","Louise"], "belakang":["Lefevre","Moreau","Laurent"] }
-      },
-      "Yunani": {
-        "Laki-laki": { "depan":["Nikos","Dimitris","Georgios"], "belakang":["Papadopoulos","Nikolaou","Christodoulou"] },
-        "Perempuan": { "depan":["Maria","Eleni","Sofia"], "belakang":["Papadaki","Ioannou","Vlachou"] }
-      },
-      "Mexico": {
-        "Laki-laki": { "depan":["Juan","Luis","Carlos"], "belakang":["Hernandez","Garcia","Lopez"] },
-        "Perempuan": { "depan":["Maria","Juana","Sofia"], "belakang":["Martinez","Gonzalez","Perez"] }
-      },
-      "Kanada": {
-        "Laki-laki": { "depan":["Liam","Noah","Ethan"], "belakang":["Smith","Brown","Taylor"] },
-        "Perempuan": { "depan":["Emma","Olivia","Sophia"], "belakang":["Wilson","Clark","White"] }
-      },
-      "Brasil": {
-        "Laki-laki": { "depan":["Lucas","Gabriel","Mateus"], "belakang":["Silva","Souza","Costa"] },
-        "Perempuan": { "depan":["Maria","Ana","Beatriz"], "belakang":["Santos","Oliveira","Pereira"] }
-      },
-      "Australia": {
-        "Laki-laki": { "depan":["Jack","Oliver","Noah"], "belakang":["Smith","Jones","Brown"] },
-        "Perempuan": { "depan":["Charlotte","Olivia","Amelia"], "belakang":["Wilson","Taylor","Evans"] }
-      },
-      "Spanyol": {
-        "Laki-laki": { "depan":["Hugo","Daniel","Alejandro"], "belakang":["Gomez","Martinez","Lopez"] },
-        "Perempuan": { "depan":["Lucia","Sofia","Martina"], "belakang":["Garcia","Fernandez","Sanchez"] }
-      },
-      "Belanda": {
-        "Laki-laki": { "depan":["Daan","Lucas","Levi"], "belakang":["Jansen","De Vries","Van Dijk"] },
-        "Perempuan": { "depan":["Emma","Tess","Sophie"], "belakang":["Bakker","Visser","Smit"] }
-      },
-      "Norwegia": {
-        "Laki-laki": { "depan":["Lukas","Oskar","Emil"], "belakang":["Hansen","Johansen","Larsen"] },
-        "Perempuan": { "depan":["Emma","Nora","Sofie"], "belakang":["Haugen","Berg","Lunde"] }
-      },
-      "Irlandia": {
-        "Laki-laki": { "depan":["Sean","Conor","Patrick"], "belakang":["O'Brien","Murphy","Kelly"] },
-        "Perempuan": { "depan":["Aoife","Saoirse","Niamh"], "belakang":["O'Sullivan","Byrne","Ryan"] }
-      },
-      "Mesir": {
-        "Laki-laki": { "depan":["Ahmed","Mohamed","Omar"], "belakang":["Hassan","Ali","Youssef"] },
-        "Perempuan": { "depan":["Sara","Nour","Mariam"], "belakang":["Hassan","Ali","Youssef"] }
-      },
-      "Thailand": {
-        "Laki-laki": { "depan":["Somchai","Anan","Krit"], "belakang":["Sukhum","Niran","Phan"] },
-        "Perempuan": { "depan":["Malee","Suda","Anong"], "belakang":["Sukhum","Niran","Phan"] }
-      }
-    };
+  <p style="margin-top:20px; font-weight:bold;">
+    💌 Dari Aufi (Ahmad Salim Assufi)<br>
+    untuk Tuan Putri tercinta (Putri Bunga Lestari)
+  </p>
 
-    // Tambahkan negara ke dropdown
-    const select = document.getElementById("country");
-    allCountries.forEach(c => {
-      const opt = document.createElement("option");
-      opt.textContent = c;
-      select.appendChild(opt);
-    });
+  <p style="
+    margin-top:15px;
+    font-size:14px;
+    color:#555;
+    font-style:italic;
+  ">
+    Kalau ingin membalas kata-katanya atau membalas doanya,  
+    balas di chat WA aja yaa tuan putrikuuuu 💕  
+    soalnya nggak mungkin bisa ditulis juga di web iniii 🥰🥰🥰
+  </p>
 
-    function generateNames() {
-      const country = document.getElementById("country").value;
-      const gender = document.getElementById("gender").value;
-      let jumlah = parseInt(document.getElementById("jumlah").value);
-      const output = document.getElementById("output");
-      output.innerHTML = '';
+  <div class="heart">🤍</div>
+</div>
 
-      let poolDepan = [];
-      let poolBelakang = [];
+<script>
+function tampilkanPesan() {
+  document.getElementById("pesan").classList.remove("hidden");
+  document.getElementById("musik").play();
+}
+</script>
 
-      if (country === "Semua Negara") {
-        for (let c in sampleNames) {
-          poolDepan = poolDepan.concat(sampleNames[c][gender].depan || []);
-          poolBelakang = poolBelakang.concat(sampleNames[c][gender].belakang || []);
-        }
-      } else {
-        if (sampleNames[country]) {
-          poolDepan = [...sampleNames[country][gender].depan];
-          poolBelakang = [...sampleNames[country][gender].belakang];
-        } else {
-          poolDepan = ["Anonim"];
-          poolBelakang = ["Anonim"];
-        }
-      }
-
-      let result = new Set();
-      while (result.size < jumlah) {
-        const depan = poolDepan[Math.floor(Math.random() * poolDepan.length)];
-        const belakang = poolBelakang[Math.floor(Math.random() * poolBelakang.length)];
-        const number = Math.floor(100000 + Math.random() * 900000);
-        result.add(depan + "." + belakang + "." + number);
-      }
-
-      Array.from(result).forEach(name => {
-        const row = document.createElement('div');
-        row.className = 'name-row';
-        const span = document.createElement('span');
-        span.className = 'name-text';
-        span.textContent = name;
-        const btn = document.createElement('button');
-        btn.className = 'copy-single';
-        btn.textContent = 'Salin';
-        btn.onclick = () => {
-          navigator.clipboard.writeText(name);
-          span.classList.add('copied');
-          span.textContent = name + " ✅";
-          const msg = document.getElementById("copyMsg");
-          msg.style.display = "block";
-          setTimeout(() => { msg.style.display = "none"; }, 1500);
-        };
-        row.appendChild(span);
-        row.appendChild(btn);
-        output.appendChild(row);
-      });
-
-      document.getElementById("copyMsg").style.display = false;
-    }
-
-    function copyNames() {
-      const output = Array.from(document.querySelectorAll('.name-text')).map(e => e.textContent.replace(" ✅","")).join("\n");
-      if (!output.trim()) {
-        alert("Belum ada nama untuk disalin!");
-        return;
-      }
-      navigator.clipboard.writeText(output).then(() => {
-        const msg = document.getElementById("copyMsg");
-        msg.style.display = "block";
-        setTimeout(() => { msg.style.display = "none"; }, 2000);
-      });
-    }
-  </script>
 </body>
 </html>
